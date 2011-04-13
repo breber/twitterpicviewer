@@ -1,10 +1,8 @@
 package org.reber.twitpicviewer;
 
-import java.io.BufferedReader;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -20,9 +18,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 public class ViewPic extends Activity {
 	
+	private ImageHost host;
 	private Bitmap drawable;
 	
 	/** Called when the activity is first created. */
@@ -44,16 +44,20 @@ public class ViewPic extends Activity {
 			public void run() {
 				String url = uri.toString();
 				if (url.contains("twitpic")) {
-					url = url.replace("http://twitpic.com/", "");
-					url = "http://twitpic.com/show/large/" + url;
+					host = new TwitPic(url);
 				} else if (url.contains("yfrog")) {
-					url += ":iphone";
+					host = new YFrog(url);
 				} else if (url.contains("plixi")) {
-					url = "http://api.plixi.com/api/tpapi.svc/photos/" + url.substring(url.indexOf("/p/") + 3);
+					try {
+						host = new Plixi(url);
+					} catch (IOException e) {
+						Toast.makeText(ViewPic.this, "Unable to display Plixi image", Toast.LENGTH_SHORT).show();
+						return;
+					}
 				}
 
 				try {
-					drawable = getImage(ViewPic.this, url.trim(), "img.jpg");
+					drawable = getImage(ViewPic.this, host.getURL(), "img.jpg");
 				} catch (MalformedURLException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
@@ -86,46 +90,12 @@ public class ViewPic extends Activity {
 		Log.d("VIEW_PIC", connection.getContentLength() + "");
 		InputStream input = connection.getInputStream();
 
-		if (url.contains("plixi")) {
-				String temp = convertStreamToString(input);
-				
-//				http://support.lockerz.com/entries/375090-photo
-				
-				temp = temp.substring(temp.indexOf("<MobileImageUrl>") + 16, temp.indexOf("</MobileImageUrl>"));
-				Log.d("VIEW_PIC", temp);
-				connection = (HttpURLConnection) new URL(temp).openConnection();
-				connection.setRequestProperty("User-agent","Mozilla/4.0");
-				HttpURLConnection.setFollowRedirects(true);
-				connection.connect();
-				input = connection.getInputStream();
-		}
-		
 		x = BitmapFactory.decodeStream(new PatchInputStream(input));
 		Log.d("VIEW_PIC", "Finished Decoding Stream " + x);
 		return x;
 	}
 
-	private String convertStreamToString(InputStream is) {
-		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-		StringBuilder sb = new StringBuilder();
 
-		String line;
-		try {
-			while ((line = reader.readLine()) != null) {
-				sb.append(line);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				is.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-
-		return sb.toString();
-	}
 	
 	public class PatchInputStream extends FilterInputStream {
 		public PatchInputStream(InputStream in) {
