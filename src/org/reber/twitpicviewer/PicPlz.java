@@ -5,33 +5,40 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
+ * PicPlz image support
  * 
- * http://support.lockerz.com/entries/375090-photo
- * 
+ * https://sites.google.com/site/picplzapi/api-methods
  * 
  * @author breber
  */
-public class Plixi implements ImageHost {
+public class PicPlz implements ImageHost {
 
 	private String url;
 	
 	/**
 	 * @throws IOException 
+	 * @throws JSONException 
 	 * 
 	 */
-	public Plixi(String url) throws IOException {
-		String temp = "http://api.plixi.com/api/tpapi.svc/photos/" + url.substring(url.indexOf("/p/") + 3);
+	public PicPlz(String url) throws IOException, JSONException {
+		String temp = "http://api.picplz.com/api/v2/pic.json?shorturl_id=" + url.substring(url.indexOf("com/") + 4);
 		
 		HttpURLConnection connection = (HttpURLConnection) new URL(temp).openConnection();
 		connection.setRequestProperty("User-agent","Mozilla/4.0");
 		HttpURLConnection.setFollowRedirects(true);
 		connection.connect();
 		InputStream input = connection.getInputStream();
-		
-		temp = Util.convertStreamToString(input);
 
-		this.url = temp.substring(temp.indexOf("<MobileImageUrl>") + 16, temp.indexOf("</MobileImageUrl>"));
+		temp = Util.convertStreamToString(input);
+		
+		JSONObject obj = new JSONObject(temp);
+		obj = (JSONObject) obj.getJSONObject("value").getJSONArray("pics").get(0);
+		
+		this.url = obj.getJSONObject("pic_files").getJSONObject("640r").getString("img_url");
 	}
 	
 	/* (non-Javadoc)

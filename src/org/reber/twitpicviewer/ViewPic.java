@@ -7,6 +7,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.json.JSONException;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -52,6 +54,16 @@ public class ViewPic extends Activity {
 						host = new Plixi(url);
 					} catch (IOException e) {
 						Toast.makeText(ViewPic.this, "Unable to display Plixi image", Toast.LENGTH_SHORT).show();
+						return;
+					}
+				} else if (url.contains("picplz")) {
+					try {
+						host = new PicPlz(url);
+					} catch (IOException e) {
+						Toast.makeText(ViewPic.this, "Unable to display PicPlz image", Toast.LENGTH_SHORT).show();
+						return;
+					} catch (JSONException e) {
+						Toast.makeText(ViewPic.this, "Unable to display PicPlz image", Toast.LENGTH_SHORT).show();
 						return;
 					}
 				}
