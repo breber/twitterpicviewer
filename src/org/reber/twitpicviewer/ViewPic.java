@@ -81,6 +81,7 @@ public class ViewPic extends Activity {
 					public void run() {
 						ImageView iv = (ImageView) findViewById(R.id.imageview);
 						iv.setImageBitmap(drawable);
+						iv.setOnTouchListener(new Touch());
 						
 						prompt.dismiss();
 					}
@@ -103,7 +104,6 @@ public class ViewPic extends Activity {
 		InputStream input = connection.getInputStream();
 
 		x = BitmapFactory.decodeStream(new PatchInputStream(input));
-		Log.d("VIEW_PIC", "Finished Decoding Stream " + x);
 		return x;
 	}
 
@@ -113,11 +113,16 @@ public class ViewPic extends Activity {
 		public PatchInputStream(InputStream in) {
 			super(in);
 		}
+		
 		public long skip(long n) throws IOException {
 			long m = 0L;
 			while (m < n) {
-				long _m = in.skip(n-m);
-				if (_m == 0L) break;
+				long _m = in.skip(n - m);
+				
+				if (_m == 0L) {
+					break;
+				}
+				
 				m += _m;
 			}
 			return m;
