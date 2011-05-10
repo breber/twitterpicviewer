@@ -9,7 +9,7 @@ public class TwitPic implements ImageHost {
 	private String url;
 	
 	/**
-	 * 
+	 * Creates a new TwitPic image
 	 */
 	public TwitPic(String url) {
 		if (url != null) {
