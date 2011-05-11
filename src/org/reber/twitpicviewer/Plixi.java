@@ -6,9 +6,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
+ * Plixi image support
  * 
  * http://support.lockerz.com/entries/375090-photo
- * 
  * 
  * @author breber
  */
@@ -17,8 +17,10 @@ public class Plixi implements ImageHost {
 	private String url;
 	
 	/**
-	 * @throws IOException 
+	 * Creates a new Plixi image object from the shortened Plixi url
 	 * 
+	 * @param url - the shortened Plixi image url
+	 * @throws IOException 
 	 */
 	public Plixi(String url) throws IOException {
 		String temp = "http://api.plixi.com/api/tpapi.svc/photos/" + url.substring(url.indexOf("/p/") + 3);

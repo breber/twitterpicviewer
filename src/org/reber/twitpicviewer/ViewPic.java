@@ -22,6 +22,11 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+/**
+ * The main class that runs and displays the image passed in by the intent
+ * 
+ * @author breber
+ */
 public class ViewPic extends Activity {
 	
 	private ImageHost host;
@@ -91,6 +96,17 @@ public class ViewPic extends Activity {
 		prompt.show();
 	}
 
+	/**
+	 * Gets an image from the given URL
+	 * 
+	 * @param ctx
+	 * @param url
+	 * @param saveFilename
+	 * @return the image in from the URL
+	 * 
+	 * @throws MalformedURLException
+	 * @throws IOException
+	 */
 	private Bitmap getImage(Context ctx, String url, String saveFilename) throws MalformedURLException, IOException {
 		Bitmap x;
 
@@ -108,7 +124,12 @@ public class ViewPic extends Activity {
 	}
 
 
-	
+	/**
+	 * The InputStream class has some problems with large images,
+	 * so we patch it
+	 * 
+	 * @author breber
+	 */
 	public class PatchInputStream extends FilterInputStream {
 		public PatchInputStream(InputStream in) {
 			super(in);

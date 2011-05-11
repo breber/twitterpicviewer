@@ -19,10 +19,14 @@ public class PicPlz implements ImageHost {
 
 	private String url;
 	
+
 	/**
-	 * @throws IOException 
-	 * @throws JSONException 
+	 * Creates a new PicPlz image object using the given shortened PicPlz url
 	 * 
+	 * @param url - the shortened PicPlz url
+	 * 
+	 * @throws IOException
+	 * @throws JSONException
 	 */
 	public PicPlz(String url) throws IOException, JSONException {
 		String temp = "http://api.picplz.com/api/v2/pic.json?shorturl_id=" + url.substring(url.indexOf("com/") + 4);

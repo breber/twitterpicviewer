@@ -12,6 +12,12 @@ import java.io.InputStreamReader;
  */
 public class Util {
 	
+	/**
+	 * Converts an input stream to a String
+	 * 
+	 * @param is - the input stream to convert
+	 * @return the string representing the input stream
+	 */
 	public static String convertStreamToString(InputStream is) {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 		StringBuilder sb = new StringBuilder();
