@@ -6,7 +6,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- * Plixi image support
+ * Plixi/Lockerz image support
  * 
  * http://support.lockerz.com/entries/375090-photo
  * 
@@ -23,7 +23,8 @@ public class Plixi implements ImageHost {
 	 * @throws IOException 
 	 */
 	public Plixi(String url) throws IOException {
-		String temp = "http://api.plixi.com/api/tpapi.svc/photos/" + url.substring(url.indexOf("/p/") + 3);
+		String temp = "http://api.plixi.com/api/tpapi.svc/photos/" + 
+			url.substring((url.contains("lockerz") ? url.indexOf("/s/") : url.indexOf("/p/")) + 3);
 		
 		HttpURLConnection connection = (HttpURLConnection) new URL(temp).openConnection();
 		connection.setRequestProperty("User-agent","Mozilla/4.0");

@@ -54,7 +54,7 @@ public class ViewPic extends Activity {
 					host = new TwitPic(url);
 				} else if (url.contains("yfrog")) {
 					host = new YFrog(url);
-				} else if (url.contains("plixi")) {
+				} else if (url.contains("plixi") | url.contains("lockerz")) {
 					try {
 						host = new Plixi(url);
 					} catch (IOException e) {
