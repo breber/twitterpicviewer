@@ -6,4 +6,4 @@ Background: Up until recently, the Twitter for Android app didn't have support f
 
 Purpose: To be able to view tweeted pictures in a native image viewer on the Android platform
 
-Support:  Currently, this app supports TwitPic, YFrog, Plixi, Lockerz, and PicPlz images.  I will be adding support for other services as I run into the need for them.
+Support:  Currently, this app supports TwitPic, YFrog, Plixi, Lockerz, Twitgoo, and PicPlz images.  I will be adding support for other services as I run into the need for them.

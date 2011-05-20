@@ -71,6 +71,8 @@ public class ViewPic extends Activity {
 						Toast.makeText(ViewPic.this, "Unable to display PicPlz image", Toast.LENGTH_SHORT).show();
 						return;
 					}
+				} else if (url.contains("twitgoo")) {
+					host = new Twitgoo(url);
 				}
 
 				try {
