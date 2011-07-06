@@ -7,6 +7,6 @@ LOCAL_SRC_FILES := $(call all-subdir-java-files)
 
 LOCAL_PACKAGE_NAME := TwitterPicViewer
 
-LOCAL_PROGUARD_FLAG_FILES := proguard.flags
+LOCAL_PROGUARD_FLAG_FILES := proguard.cfg
 
 include $(BUILD_PACKAGE)
